@@ -1,18 +1,18 @@
 <?php
 
-class User
-{
+class User {
 
-    public array $users;
+    public $id;
+    public $name;
+    public $email;
+    public $password;
 
-
-    public function __construct()
-    {
-        $this->users = [
-            ['id' => 1,
-            'nome' => 'Usuário Base',
-            'email' => 'usuariobase@gmail.com',
-            'senha' => 'SenhaUsuarioBase'],
-        ];
+    public function __construct($name, $email, $senha ){
+        $this->name = $name;
+        $this->email = $email;
+        $this->password = $senha;
     }
+
 }
+
+?>

@@ -44,6 +44,10 @@ class Validation
        return true;
     }
 
+    # Função de validar HASH
+
+    
+
     public function emailExist($email) {
         $userClass = new User();
 
