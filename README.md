@@ -28,6 +28,50 @@ Sistema simples de gerenciamento de usuários desenvolvido em PHP, com funcional
 - Mensagens claras para cada ação (ex: “Email inválido”, “Senha atualizada com sucesso”)  
 
 ---
+# Casos de Uso
+
+## 1. Registrar Usuário Válido
+```php
+$userManagerClass->registerUser('Maria Oliveira', 'maria@email.com', 'Senha123');
+```
+- **Objetivo:** Criar um novo usuário no sistema.  
+- **Resultado Esperado:** Usuário cadastrado com sucesso.  
+
+---
+
+## 2. Registrar Usuário com E-mail Inválido
+```php
+$userManagerClass->registerUser('Pedro', 'pedro@@email', 'Senha123');
+```
+- **Objetivo:** Testar validação de e-mail.  
+- **Resultado Esperado:** Retornar erro informando que o e-mail é inválido.  
+
+---
+
+## 3. Login com Senha Incorreta
+```php
+$userManagerClass->login('joao@email.com', 'Errada123');
+```
+- **Objetivo:** Testar login com credenciais inválidas.  
+- **Resultado Esperado:** Retornar erro de autenticação (senha incorreta).  
+
+---
+
+## 4. Resetar Senha de Usuário
+```php
+$userManagerClass->resetPassword(1, 'NovaSenha123');
+```
+- **Objetivo:** Redefinir a senha de um usuário existente (ID = 1).  
+- **Resultado Esperado:** Senha atualizada com sucesso.  
+
+---
+
+## 5. Registrar Usuário com E-mail Duplicado
+```php
+$userManagerClass->registerUser('Valdir', 'maria@email.com', 'Senha231');
+```
+- **Objetivo:** Testar restrição de e-mails duplicados.  
+- **Resultado Esperado:** Retornar erro informando que o e-mail já está cadastrado.  
 
 ## ⚠️ Limitações
 
