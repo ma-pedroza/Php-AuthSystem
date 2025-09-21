@@ -1,9 +1,9 @@
 <?php
-include 'User.php';
+require_once 'UserManager.php';
 
 
 
-class Validation
+class validation
 {
 
     public function validateEmail($email)
@@ -44,14 +44,29 @@ class Validation
        return true;
     }
 
-    # Função de validar HASH
+    public function hashPassword($password) {
+        if($this->validatePassword($password) == true) {
+            $passwordHash = password_hash($password, PASSWORD_DEFAULT);
+            echo($passwordHash);
+            return $passwordHash;
+        }
 
-    
+        return false;
+    }    
+
+    public function passwordVerifiy($password){
+        $userManagerClass = new userManager();
+        foreach($userManagerClass->users as $user){
+            if($user['password'] == password_hash($password, PASSWORD_DEFAULT)){
+                return true;
+            }
+        }
+    }
 
     public function emailExist($email) {
-        $userClass = new User();
+        $userManagerClass = new userManager();
 
-        foreach ($userClass->users as $user) {
+        foreach ($userManagerClass->users as $user) {
             if ($user['email'] == $email ) {
                 echo('Email já cadastrado');
                 return false;
