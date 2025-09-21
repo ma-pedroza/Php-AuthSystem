@@ -9,17 +9,17 @@ class validation
     public function validateEmail($email)
     {
         if ($email == null or $email == '') {
-            echo ('Email não pode ser vazio.');
+            echo "Email não pode ser vazio. <br>";
             return false;
         }
 
         if (!preg_match('/@/', $email)) {
-            echo ('Email inválido.');
+            echo "Email inválido. <br>";
             return false;
         }
 
         if (!str_ends_with($email, '.com')) {
-            echo ('Email inválido.');
+            echo "Email inválido. <br>";
             return false;
         }
 
@@ -28,16 +28,16 @@ class validation
 
     public function validatePassword($password) {
         if (strlen($password) < 8) {
-            echo('A senha deve conter pelo menos 8 caracteres.');
+            echo "A senha deve conter pelo menos 8 caracteres. <br>";
             return false;
         }
         if (!preg_match('/\d/', $password)) {
-            echo("A senha deve conter pelo menos um dígito numérico.");
+            echo "A senha deve conter pelo menos um dígito numérico. <br>";
             return false;
         }
 
         if (!preg_match('/[A-Z]/', $password)) {
-            echo("A senha deve conter pelo menos uma letra maiúscula.");
+            echo "A senha deve conter pelo menos uma letra maiúscula. <br>";
             return false;
        }
 
@@ -45,30 +45,20 @@ class validation
     }
 
     public function hashPassword($password) {
-        if($this->validatePassword($password) == true) {
+        if ($this->validatePassword($password) == true) {
+            
             $passwordHash = password_hash($password, PASSWORD_DEFAULT);
-            echo($passwordHash);
             return $passwordHash;
         }
 
         return false;
     }    
 
-    public function passwordVerifiy($password){
-        $userManagerClass = new userManager();
-        foreach($userManagerClass->users as $user){
-            if($user['password'] == password_hash($password, PASSWORD_DEFAULT)){
-                return true;
-            }
-        }
-    }
+    public function emailExist($email, $userManager) {
 
-    public function emailExist($email) {
-        $userManagerClass = new userManager();
-
-        foreach ($userManagerClass->users as $user) {
+        foreach ($userManager->users as $user) {
             if ($user['email'] == $email ) {
-                echo('Email já cadastrado');
+                echo "Email já cadastrado <br>";
                 return false;
             }
         }

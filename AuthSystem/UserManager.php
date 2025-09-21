@@ -24,8 +24,8 @@ class userManager {
 
     public function getMaxId() {
         $count = 0;
-        foreach($this->users as $user) {
-            if($user['id'] > $count) {
+        foreach ($this->users as $user) {
+            if ($user['id'] > $count) {
                 $count = $user['id'];
             }
         }
@@ -38,7 +38,7 @@ class userManager {
 
         if ($validationClass->validateEmail($email) == false) return;
 
-        if ($validationClass->emailExist($email) == false) return;
+        if ($validationClass->emailExist($email, $this) == false) return;
 
         if ($validationClass->validatePassword($senha) == false) return;
 
@@ -53,7 +53,7 @@ class userManager {
             'password' => $user->password
         ];
 
-        print_r($this->users);
+        echo "Usuário cadastrado com sucesso! Bem vindo {$name} <br>";
    
     }
 
@@ -63,18 +63,31 @@ class userManager {
         if ($validationClass->validateEmail($email) == false)  return;
         if ($validationClass->validatePassword($senha) == false) return;
 
-        $userManagerClass = new userManager();
+        foreach ($this->users as $user) {
+            if (password_verify($senha, $user['password']) && $user['email'] == $email) {
 
-        foreach ($userManagerClass->users as $user) {
-            if(password_verify($senha, $user['password'])){
-                echo('Bem vindo de volta' . $user['name']);
+                echo "Bem vindo de volta {$user['name']} <br>";
+                return;
             }
         }
 
-        echo ('Email ou Senha inválidos. Tente novamente.');
-
+        echo "Email ou Senha inválidos. Tente novamente. <br>";
 
     }
 
-    public function resetPassword() {}
+    public function resetPassword($id, $senha) {
+        $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
+
+        foreach ($this->users as &$user) {
+            if ($user['id'] == $id) {
+
+                $user['password'] = $senhaHash;
+
+                echo "Senha do Usuário {{$user['name']}} atualizada com sucesso. <br>";
+                return;
+            }
+        }
+
+         echo "Usuário não encontrado. <br>";
+    }
 }
